@@ -9,6 +9,7 @@ import pandas as pd
 import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 
 """
 Import dataset and read specific column. Split the dataset in training and testing set.
@@ -17,12 +18,30 @@ def importMultiLinearRegressionDataset(multiLinearRegressionDatasetFileName):
     
     multiLinearRegressionDataset = pd.read_csv(multiLinearRegressionDatasetFileName)
     X = multiLinearRegressionDataset.iloc[:, :-1].values
-    y = multiLinearRegressionDataset.iloc[:, 1].values
+    y = multiLinearRegressionDataset.iloc[:, 4].values
+    
+    X = multiLinearRegressionOneHotEncoder(X)
     
     #spliting the dataset into training and testing set
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
     
     return X_train, X_test, y_train, y_test
+
+"""
+Encoding categorical variables
+"""
+def multiLinearRegressionOneHotEncoder(X):
+    
+    multiLinearRegressionLabelEncoder = LabelEncoder()
+    X[:, 3] = multiLinearRegressionLabelEncoder.fit_transform(X[:, 3])
+    
+    multiLinearRegressionOneHotEncoder = OneHotEncoder(categorical_features= [3])
+    X = multiLinearRegressionOneHotEncoder.fit_transform(X).toarray()
+    
+    #avoiding dummy variables trap
+    X = X[:, 1:]
+    
+    return X    
 
 """
 Save standard scalar object as a pickel file. This standard scalar object must be used to standardized the dataset for training, testing and new dataset.
