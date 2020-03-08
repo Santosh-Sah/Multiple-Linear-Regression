@@ -234,3 +234,83 @@ def readMultiLinearRegressionModelOLS():
         multiLinearRegressionModelOLS = pickle.load(MultiLinearRegressionModelOLS)
     
     return multiLinearRegressionModelOLS
+
+"""
+Save training and testing dataset OLS
+"""
+def saveTrainingAndTestingDatasetOLS(X_train_OLS, X_test_OLS, y_train_OLS, y_test_OLS):
+    
+    #Write X_train OLS in a picke file
+    with open("X_train_OLS.pkl",'wb') as X_train_OLS_Pickle:
+        pickle.dump(X_train_OLS, X_train_OLS_Pickle, protocol = 2)
+    
+    #Write X_test OLS in a picke file
+    with open("X_test_OLS.pkl",'wb') as X_test_OLS_Pickle:
+        pickle.dump(X_test_OLS, X_test_OLS_Pickle, protocol = 2)
+    
+    #Write y_train OLS in a picke file
+    with open("y_train_OLS.pkl",'wb') as y_train_OLS_Pickle:
+        pickle.dump(y_train_OLS, y_train_OLS_Pickle, protocol = 2)
+    
+    #Write y_test OLS in a picke file
+    with open("y_test_OLS.pkl",'wb') as y_test_OLS_Pickle:
+        pickle.dump(y_test_OLS, y_test_OLS_Pickle, protocol = 2)
+
+"""
+read X_train OLS from pickle file
+"""
+def readMultiLinearRegressionXTrainOLS():
+    
+    #load X_train
+    with open("X_train_OLS.pkl","rb") as X_train_OLS_pickle:
+        X_train_OLS = pickle.load(X_train_OLS_pickle)
+    
+    return X_train_OLS
+
+"""
+read X_test OLS from pickle file
+"""
+def readMultiLinearRegressionXTestOLS():
+    
+    #load X_test
+    with open("X_test_OLS.pkl","rb") as X_test_OLS_pickle:
+        X_test_OLS = pickle.load(X_test_OLS_pickle)
+    
+    return X_test_OLS
+
+"""
+read y_train OLS from pickle file
+"""
+def readMultiLinearRegressionYTrainOLS():
+    
+    #load y_train
+    with open("y_train_OLS.pkl","rb") as y_train_OLS_pickle:
+        y_train_OLS = pickle.load(y_train_OLS_pickle)
+    
+    return y_train_OLS
+
+"""
+read y_test OLS from pickle file
+"""
+def readMultiLinearRegressionYTestOLS():
+    
+    #load y_test OLS
+    with open("y_test_OLS.pkl","rb") as y_test_OLS_pickle:
+        y_test_OLS = pickle.load(y_test_OLS_pickle)
+    
+    return y_test_OLS
+
+"""
+Split training and testing set .
+"""
+def splitTrainingAndTestingSetOLS():
+    
+    X_OLS = readDatasetOLSX()
+    y_OLS = readDatasetOLSY()
+    
+    X_opt = X_OLS[:, [0, 3]]
+    
+    #spliting the dataset into training and testing set
+    X_train, X_test, y_train, y_test = train_test_split(X_opt, y_OLS, test_size = 0.2, random_state = 0)
+    
+    return X_train, X_test, y_train, y_test

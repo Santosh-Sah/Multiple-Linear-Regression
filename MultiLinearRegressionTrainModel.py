@@ -8,8 +8,7 @@ Created on Sat Mar  7 21:28:23 2020
 from sklearn.linear_model import LinearRegression
 import statsmodels.formula.api as sm
 from MultiLinearRegressionUtils import (saveMultiLinearRegressionModel, readMultiLinearRegressionXTrain, readMultiLinearRegressionYTrain,
-                                        readMultiLinearRegressionModel, readDatasetOLSX, readDatasetOLSY, saveMultiLinearRegressionModelOLS,
-                                        readMultiLinearRegressionModelOLS)
+                                        saveMultiLinearRegressionModelOLS, readMultiLinearRegressionXTrainOLS, readMultiLinearRegressionYTrainOLS)
 
 """
 Train multi linear regression model 
@@ -29,12 +28,10 @@ Train multi linear regression model OLS
 """
 def trainMultiLinearRegressionModelOLS():
     
-    X_OLS = readDatasetOLSX()
-    y_OLS = readDatasetOLSY()
+    X_OLS = readMultiLinearRegressionXTrainOLS()
+    y_OLS = readMultiLinearRegressionYTrainOLS()
     
-    X_opt = X_OLS[:, [0, 3]]
-    
-    multiLinearRegressionOLS = sm.OLS(endog = y_OLS, exog = X_opt).fit()
+    multiLinearRegressionOLS = sm.OLS(endog = y_OLS, exog = X_OLS).fit()
     
     saveMultiLinearRegressionModelOLS(multiLinearRegressionOLS)
 

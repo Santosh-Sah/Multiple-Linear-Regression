@@ -5,18 +5,18 @@ Created on Sat Mar  7 18:41:21 2020
 @author: Santosh Sah
 """
 
-from MultiLinearRegressionUtils import (readMultiLinearRegressionXTest, readMultiLinearRegressionModel)
+from MultiLinearRegressionUtils import (readMultiLinearRegressionXTestOLS, readMultiLinearRegressionModelOLS)
 
 """
 test themodel on testing dataset
 """
-def testMultiLinearRegressionModel():
+def testMultiLinearRegressionModelOLS():
     
-    X_test = readMultiLinearRegressionXTest()
-    multiLinearRegressionModel = readMultiLinearRegressionModel()
+    X_test = readMultiLinearRegressionXTestOLS()
+    multiLinearRegressionModel = readMultiLinearRegressionModelOLS()
     
     y_pred = multiLinearRegressionModel.predict(X_test)
     print(y_pred)
 
 if __name__ == "__main__":
-    testMultiLinearRegressionModel()
+    testMultiLinearRegressionModelOLS()
