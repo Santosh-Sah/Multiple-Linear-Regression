@@ -7,6 +7,7 @@ Created on Sat Mar  7 21:17:14 2020
 
 import pandas as pd
 import pickle
+import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
@@ -28,6 +29,22 @@ def importMultiLinearRegressionDataset(multiLinearRegressionDatasetFileName):
     return X_train, X_test, y_train, y_test
 
 """
+Import dataset and read specific column.
+"""
+def importMultiLinearRegressionDatasetForOLS(multiLinearRegressionDatasetFileName):
+    
+    multiLinearRegressionDatasetOLS = pd.read_csv(multiLinearRegressionDatasetFileName)
+    
+    X = multiLinearRegressionDatasetOLS.iloc[:, :-1].values
+    y = multiLinearRegressionDatasetOLS.iloc[:, 4].values
+    
+    X = multiLinearRegressionOneHotEncoder(X)
+    
+    X = multiLinearRegressionYIntercept(X)
+    
+    return X, y
+
+"""
 Encoding categorical variables
 """
 def multiLinearRegressionOneHotEncoder(X):
@@ -42,6 +59,18 @@ def multiLinearRegressionOneHotEncoder(X):
     X = X[:, 1:]
     
     return X    
+
+"""
+y = b0 + b1x1 + b2x2 + .... + bnxn
+Here we are creating a data frame so that the columns present in the equation which is mentioned above.
+(50, 1) dataset has has 50 rows
+axis = 1 defines that we are added a column in dataset X
+"""
+def multiLinearRegressionYIntercept(X):
+    
+    X = np.append(arr = np.ones((50,1)).astype(int), values = X, axis = 1)
+    
+    return X
 
 """
 Save standard scalar object as a pickel file. This standard scalar object must be used to standardized the dataset for training, testing and new dataset.
@@ -150,3 +179,58 @@ def readMultiLinearRegressionYTest():
         y_test = pickle.load(y_test_pickle)
     
     return y_test
+
+"""
+Save dataset OLS regression
+"""
+def saveDatasetForOLS(X, y):
+    
+    #Write X in a picke file
+    with open("X_OLS.pkl",'wb') as X_OLS_Pickle:
+        pickle.dump(X, X_OLS_Pickle, protocol = 2)
+    
+    #Write y in a picke file
+    with open("y_OLS.pkl",'wb') as y_OLS_Pickle:
+        pickle.dump(y, y_OLS_Pickle, protocol = 2)
+
+"""
+read OLS dataset X from pickle file
+"""
+def readDatasetOLSX():
+    
+    #load X
+    with open("X_OLS.pkl","rb") as X_OLS_pickle:
+        X_OLS = pickle.load(X_OLS_pickle)
+    
+    return X_OLS
+
+"""
+read OLS dataset y from pickle file
+"""
+def readDatasetOLSY():
+    
+    #load y
+    with open("y_OLS.pkl","rb") as y_OLS_pickle:
+        y_OLS = pickle.load(y_OLS_pickle)
+    
+    return y_OLS
+
+"""
+Save MultiLinearRegressionModelOLS as a pickle file.
+"""
+def saveMultiLinearRegressionModelOLS(multiLinearRegressionModelOLS):
+    
+    #Write MultiLinearRegressionModelOLS as a picke file
+    with open("MultiLinearRegressionModelOLS.pkl",'wb') as MultiLinearRegressionModelOLS_Pickle:
+        pickle.dump(multiLinearRegressionModelOLS, MultiLinearRegressionModelOLS_Pickle, protocol = 2)
+
+"""
+read MultiLinearRegressionModelOLS from pickle file
+"""
+def readMultiLinearRegressionModelOLS():
+    
+    #load MultiLinearRegressionModelOLS model
+    with open("MultiLinearRegressionModelOLS.pkl","rb") as MultiLinearRegressionModelOLS:
+        multiLinearRegressionModelOLS = pickle.load(MultiLinearRegressionModelOLS)
+    
+    return multiLinearRegressionModelOLS
